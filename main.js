@@ -248,87 +248,161 @@ async function deleteUsuario(id){
 
 //plataformas
 
-// async function postPlataformas(plataforma){
-//     // console.log(contato)
-//       const url = 'http://localhost:3030/v1/controle-plataformas/plataformas'
-//       const options = {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(plataforma)
-//       }
-//       const response = await fetch(url, options)
+async function postPlataformas(plataforma){
+    // console.log(contato)
+      const url = 'http://localhost:3030/v1/controle-plataformas/plataformas'
+      const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(plataforma)
+      }
+      const response = await fetch(url, options)
 
-//       //ok é verdadeiro se deu certo e falso deu errado
-//       return response.ok
-// }
+      //ok é verdadeiro se deu certo e falso deu errado
+      return response.ok
+}
 
 
 
-// const novaPlataforma = {
-//         "nome": "Mario Bross atualizado",
-//         "data_lancamento": "1996-06-03",
-//         "versao": "1,0",
-//         "tamanho": "500KB",
-//         "descricao": "Jogo bem legal para diversão",
-//         "foto_capa": "http://foto.jpg",
-//         "link": "http://downloadJogo.zip"
-//     }
+const novaPlataforma = {
+    "nome": "Nexus Dreams",
+    "fabricante": "DreamCircuit",
+    "dispositivo": "PC, SmartTV"
+  }
 
-// // postJogo(novoJogo)
+// postJogo(novoJogo)
 
-//  async function getJogo(){
-//     const url = 'http://localhost:3030/v1/controle-jogos/jogo'
-//     const response = await fetch(url)
-//     const data = await response.json()
-//     return data
-// }
+ async function getPlataforma(){
+    const url = 'http://localhost:3030/v1/controle-plataformas/plataformas'
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
+}
 
-// async function getJogoById (id){
-//     const url = `http://localhost:3030/v1/controle-jogos/jogo/${id}`
-//         const response = await fetch(url)
-//         const data = await response.json()
-//         console.log(data)
-//         return data
-//     }
+async function getPlataformaById(id){
+    const url = `http://localhost:3030/v1/controle-plataformas/plataformas/${id}`
+        const response = await fetch(url)
+        const data = await response.json()
+        console.log(data)
+        return data
+    }
     
-// async function putJogo(id, jogo){
-//     // console.log(contato)
-//         const url = `http://localhost:3030/v1/controle-jogos/jogo/${id}`
-//         const options = {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(jogo)
-//         }
-//         const response = await fetch(url, options)
+async function putPlataforma(id, plataforma){
+    // console.log(contato)
+        const url = `http://localhost:3030/v1/controle-plataformas/plataformas/${id}`
+        const options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(plataforma)
+        }
+        const response = await fetch(url, options)
 
-//         //ok é verdadeiro se deu certo e falso deu errado
-//         return response.ok
-// }
+        //ok é verdadeiro se deu certo e falso deu errado
+        return response.ok
+}
 
-// const updateJogo = {
-//     "nome": "Mario Bross0001",
-//     "data_lancamento": "1996-06-03",
-//     "versao": "1,0",
-//     "tamanho": "500KB",
-//     "descricao": "Jogo bem legal para diversão",
-//     "foto_capa": "http://foto.jpg",
-//     "link": "http://downloadJogo.zip"
-// }
+const updatePlataforma = {
+    "nome": "Nexus Dreams",
+    "fabricante": "DreamCircuit",
+    "dispositivo": "Tablet, SmartTV"
+  }
 
 
-// async function deleteJogo(id){
-//     // console.log(contato)
-//         const url = `http://localhost:3030/v1/controle-jogos/jogo/delete/${id}`
-//         const options = {
-//         method: 'DELETE',
-//         }
-//         const response = await fetch(url, options)
+async function deletePlataforma(id){
+    // console.log(contato)
+        const url = `http://localhost:3030/v1/controle-plataformas/plataformas/delete/${id}`
+        const options = {
+        method: 'DELETE',
+        }
+        const response = await fetch(url, options)
 
-//         //ok é verdadeiro se deu certo e falso deu errado
-//         return response.ok
-// }
+        //ok é verdadeiro se deu certo e falso deu errado
+        return response.ok
+}
+
+/********************************************************************************************************************************************************************************* */
+
+//classificacao_etaria
+
+
+async function postClassificacao(classificacoes){
+    // console.log(contato)
+      const url = 'http://localhost:3030/v1/controle-classificacoes/classificacoes'
+      const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(classificacoes)
+      }
+      const response = await fetch(url, options)
+
+      //ok é verdadeiro se deu certo e falso deu errado
+      return response.ok
+}
+
+
+
+const novaClassificacao = {
+    "nome": "Nexus Dreams",
+    "fabricante": "DreamCircuit",
+    "dispositivo": "PC, SmartTV"
+  }
+
+// postJogo(novoJogo)
+
+ async function getClassificacao(){
+    const url = 'http://localhost:3030/v1/controle-classificacoes/classificacoes'
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
+}
+
+async function getClassificacaoById(id){
+    const url = `http://localhost:3030/v1/controle-classificacoes/classificacoes/${id}`
+        const response = await fetch(url)
+        const data = await response.json()
+        console.log(data)
+        return data
+    }
+    
+async function putClassificacao(id, classificacoes){
+    // console.log(contato)
+        const url = `http://localhost:3030/v1/controle-classificacoes/classificacoes/${id}`
+        const options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(classificacoes)
+        }
+        const response = await fetch(url, options)
+
+        //ok é verdadeiro se deu certo e falso deu errado
+        return response.ok
+}
+
+const updateClassificacao = {
+    "nome": "Nexus Dreams",
+    "fabricante": "DreamCircuit",
+    "dispositivo": "Tablet, SmartTV"
+  }
+
+
+async function deleteClassificacao(id){
+    // console.log(contato)
+        const url = `http://localhost:3030/v1/controle-classificacoes/classificacoes/delete/${id}`
+        const options = {
+        method: 'DELETE',
+        }
+        const response = await fetch(url, options)
+
+        //ok é verdadeiro se deu certo e falso deu errado
+        return response.ok
+}
+
 
