@@ -1,485 +1,97 @@
 'use strict'
-//jogo//
 
+import {getJogo, getJogoById, postJogo} from "./crud.js"
 
-//cadastrar jogo
-async function postJogo(jogo){
+function criarCard (contato){
     // console.log(contato)
-      const url = 'http://localhost:3030/v1/controle-jogos/jogo'
-      const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(jogo)
-      }
-      const response = await fetch(url, options)
+    const container = document.getElementById('container')
+    const card = document.createElement('div')
+    card.classList.add('card-contato')
+    card.innerHTML = `
+         <img src="${contato.foto}" alt="">
+         <h2>${contato.nome}</h2>
+         <p>${contato.celular}</p>`
+    
 
-      //ok é verdadeiro se deu certo e falso deu errado
-      return response.ok
+    container.appendChild(card)
 }
 
 
+//mostrar contatos
 
-const novoJogo = {
-        "nome": "Mario Bross atualizado",
-        "data_lancamento": "1996-06-03",
-        "versao": "1,0",
-        "tamanho": "500KB",
-        "descricao": "Jogo bem legal para diversão",
-        "foto_capa": "http://foto.jpg",
-        "link": "http://downloadJogo.zip"
+async function exibirContatos(){
+    const container = document.getElementById('container')
+    const contatos = await getContatos()
+    container.replaceChildren()
+    contatos.forEach(criarCard)
+}
+
+async function exibirPesquisa(evento){
+    const container = document.getElementById('container')
+    if(evento.key == 'Enter'){
+        const contatos = await getContatosPorNome(evento.target.value)
+        container.replaceChildren()
+        contatos.forEach(criarCard)
+        // console.log(contatos);
+        
+        // console.log('Enter pressionado')
     }
-
-postJogo(novoJogo)
-
- async function getJogo(){
-    const url = 'http://localhost:3030/v1/controle-jogos/jogo'
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
+    // console.log(evento.key);
+    
 }
 
-async function getJogoById (id){
-    const url = `http://localhost:3030/v1/controle-jogos/jogo/${id}`
-        const response = await fetch(url)
-        const data = await response.json()
-        console.log(data)
-        return data
+
+function cadastroContato(){
+    document.querySelector('main').className = 'form-show'
+}
+
+function voltarHome (){
+    document.querySelector('main').className = 'card-show'
+}
+
+async function salvarContato (){
+    const contato = {
+        "nome": document.getElementById('nome').value,
+        "celular":document.getElementById('celular').value,
+        "foto": document.getElementById('foto').value,
+        "email": document.getElementById('email').value,
+        "endereco": document.getElementById('endereco').value,
+        "cidade": document.getElementById('cidade').value,
     }
     
-async function putJogo(id, jogo){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-jogos/jogo/${id}`
-        const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(jogo)
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-const updateJogo = {
-    "nome": "Mario Bross0001",
-    "data_lancamento": "1996-06-03",
-    "versao": "1,0",
-    "tamanho": "500KB",
-    "descricao": "Jogo bem legal para diversão",
-    "foto_capa": "http://foto.jpg",
-    "link": "http://downloadJogo.zip"
-}
-
-
-async function deleteJogo(id){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-jogos/jogo/delete/${id}`
-        const options = {
-        method: 'DELETE',
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-/****************************************************************************************************************************************************************************** */
-//empresas//
-
-async function postEmpresas(empresas){
-    // console.log(contato)
-        const url = 'http://localhost:3030/v1/controle-empresas/empresas'
-        const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(empresas)
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-const novaEmpresa = 
-    {
-        "nome": "Artemis Luxuries",
-        "segmento": "Moda",
-        "pais_origem": "França"
+    if (await postContato(contato)){
+        await exibirContatos()
+        voltarHome()
+        alert ('Cadastro realizado com sucesso!!!')
+       
     }
 
-async function getEmpresas(){
-    const url = 'http://localhost:3030/v1/controle-empresas/empresas'
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-}
-
-async function getEmpresasById (id){
-    const url = `http://localhost:3030/v1/controle-empresas/empresas/${id}`
-    const response = await fetch(url)
-    const data = await response.json()
-    console.log(data)
-    return data
-}
-
-async function putEmpresas(id, empresas){
     // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-empresas/empresas/${id}`
-        const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(empresas)
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response
-}
-
-const updateEmpresas = 
-    {
-        "nome": "Luxuries",
-        "segmento": "Moda",
-        "pais_origem": "França"
-    }
-
-
-
-async function deleteEmpresas(id){
-    // console.log(contato)
-    const url = `http://localhost:3030/v1/controle-empresas/empresas/delete/${id}`
-    const options = {
-    method: 'DELETE',
-    }
-    const response = await fetch(url, options)
-
-    //ok é verdadeiro se deu certo e falso deu errado
-    return response.ok
-}
-
-/********************************************************************************************************************************************************************************* */
-
-//usuario
-
-async function postUsuario(usuarios){
-    // console.log(contato)
-        const url = 'http://localhost:3030/v1/controle-usuario/usuario'
-        const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(usuarios)
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-const novoUsuario = 
-    {
-    "nome":  "Lucas Andrade" ,                    
-    "email":  "lucas@email.com" ,                  
-    "username":   "lucas_a"               
-    }
-
-async function getUsuario(){
-    const url = 'http://localhost:3030/v1/controle-usuario/usuario'
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-}
-
-async function getUsuarioById (id){
-    const url = `http://localhost:3030/v1/controle-usuario/usuario/${id}`
-    const response = await fetch(url)
-    const data = await response.json()
-    console.log(data)
-    return data
-}
-
-async function putUsuario(id, usuarios){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-usuario/usuario/${id}`
-        const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(usuarios)
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response
-}
-
-const updateUsuario = 
-{
-    "nome":  "Lucas Melo" ,                    
-    "email":  "lucas@email.com" ,                  
-    "username":   "lucas_a"               
-    }
-
-
-
-async function deleteUsuario(id){
-    // console.log(contato)
-    const url = `http://localhost:3030/v1/controle-usuario/usuario/delete/${id}`
-    const options = {
-    method: 'DELETE',
-    }
-    const response = await fetch(url, options)
-
-    //ok é verdadeiro se deu certo e falso deu errado
-    return response.ok
-}
-
-/********************************************************************************************************************************************************************************* */
-
-//plataformas
-
-async function postPlataformas(plataforma){
-    // console.log(contato)
-      const url = 'http://localhost:3030/v1/controle-plataformas/plataformas'
-      const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(plataforma)
-      }
-      const response = await fetch(url, options)
-
-      //ok é verdadeiro se deu certo e falso deu errado
-      return response.ok
-}
-
-
-
-const novaPlataforma = {
-    "nome": "Nexus Dreams",
-    "fabricante": "DreamCircuit",
-    "dispositivo": "PC, SmartTV"
-  }
-
-// postJogo(novoJogo)
-
- async function getPlataforma(){
-    const url = 'http://localhost:3030/v1/controle-plataformas/plataformas'
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-}
-
-async function getPlataformaById(id){
-    const url = `http://localhost:3030/v1/controle-plataformas/plataformas/${id}`
-        const response = await fetch(url)
-        const data = await response.json()
-        console.log(data)
-        return data
-    }
-    
-async function putPlataforma(id, plataforma){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-plataformas/plataformas/${id}`
-        const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(plataforma)
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-const updatePlataforma = {
-    "nome": "Nexus Dreams",
-    "fabricante": "DreamCircuit",
-    "dispositivo": "Tablet, SmartTV"
-  }
-
-
-async function deletePlataforma(id){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-plataformas/plataformas/delete/${id}`
-        const options = {
-        method: 'DELETE',
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-/********************************************************************************************************************************************************************************* */
-
-//classificacao_etaria
-
-
-async function postClassificacao(classificacoes){
-    // console.log(contato)
-      const url = 'http://localhost:3030/v1/controle-classificacoes/classificacoes'
-      const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(classificacoes)
-      }
-      const response = await fetch(url, options)
-
-      //ok é verdadeiro se deu certo e falso deu errado
-      return response.ok
-}
-
-
-
-const novaClassificacao = {
-    "descricao": "speed-drive",
-     "classificacao": "adulto"
-}
-
-// postJogo(novoJogo)
-
- async function getClassificacao(){
-    const url = 'http://localhost:3030/v1/controle-classificacoes/classificacoes'
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-}
-
-async function getClassificacaoById(id){
-    const url = `http://localhost:3030/v1/controle-classificacoes/classificacoes/${id}`
-        const response = await fetch(url)
-        const data = await response.json()
-        console.log(data)
-        return data
-    }
-    
-async function putClassificacao(id, classificacoes){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-classificacoes/classificacoes/${id}`
-        const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(classificacoes)
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-const updateClassificacao = {
-    "descricao": "RPG",
-     "classificacao": "Adulto"
-}
-
-async function deleteClassificacao(id){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-classificacoes/classificacoes/delete/${id}`
-        const options = {
-        method: 'DELETE',
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-/********************************************************************************************************************************************************************************* */
-
-//categoria
-
-async function postCategoria(categorias){
-    // console.log(contato)
-      const url = 'http://localhost:3030/v1/controle-categorias/categorias'
-      const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(categorias)
-      }
-      const response = await fetch(url, options)
-
-      //ok é verdadeiro se deu certo e falso deu errado
-      return response.ok
-}
-
-
-
-const novaCategoria = {
-    "nome": "Daniela",
-     "genero": "Masculino"
-}
-
-// postJogo(novoJogo)
-
- async function getCategoria(){
-    const url = 'http://localhost:3030/v1/controle-categorias/categorias'
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-}
-
-async function getCategoriaById(id){
-    const url = `http://localhost:3030/v1/controle-categorias/categorias/${id}`
-        const response = await fetch(url)
-        const data = await response.json()
-        console.log(data)
-        return data
-    }
-    
-async function putCategoria(id, categoria){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-categorias/categorias/${id}`
-        const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(categoria)
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
-}
-
-const updateCategoria = {
-    "nome": "Daniela",
-     "genero": "Feminino"
-}
-
-
-async function deleteCategoria(id){
-    // console.log(contato)
-        const url = `http://localhost:3030/v1/controle-categorias/categorias/delete/${id}`
-        const options = {
-        method: 'DELETE',
-        }
-        const response = await fetch(url, options)
-
-        //ok é verdadeiro se deu certo e falso deu errado
-        return response.ok
 }
 
 
 
 
+exibirContatos()
+
+const uploadParams = {
+    file: document.getElementById('foto').files[0],
+    storageAccount: 'uploadmariane',
+    sasToken: 'sp=racwl&st=2025-05-15T12:39:50Z&se=2025-05-15T20:39:50Z&sv=2024-11-04&sr=c&sig=XLNTf25f3hwrWlJ%2Br%2BNC3C1ATc3C6ddZldpP428pORE%3D',
+    containerName: 'fotos',
+};
+
+await uploadImageToAzure(uploadParams)
+
+
+document.getElementById('pesquisar')
+.addEventListener('keydown', exibirPesquisa)
+
+document.getElementById('novo-contato')
+.addEventListener('click', cadastroContato)
+
+document.getElementById('cancelar')
+.addEventListener('click', voltarHome )
+
+document.getElementById('salvar')
+.addEventListener('click', salvarContato)
